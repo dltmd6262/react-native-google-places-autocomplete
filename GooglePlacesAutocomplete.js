@@ -325,6 +325,9 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
           rowData.isCurrentLocation === true)
       ) {
         rows[i].isLoading = true;
+        if (props.onDataSourceChanged) {
+          props.onDataSourceChanged(rows);
+        }
         setDataSource(rows);
         break;
       }
@@ -339,6 +342,9 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
       }
     }
 
+    if (props.onDataSourceChanged) {
+      props.onDataSourceChanged(buildRowsFromResults(_results));
+    }
     setDataSource(buildRowsFromResults(_results));
     // }
   };
@@ -412,7 +418,9 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
             } else {
               results = responseJSON.results;
             }
-
+            if (props.onDataSourceChanged) {
+              props.onDataSourceChanged(buildRowsFromResults(results));
+            }
             setDataSource(buildRowsFromResults(results));
             // }
           }
@@ -457,6 +465,9 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
       request.send();
     } else {
       _results = [];
+      if (props.onDataSourceChanged) {
+        props.onDataSourceChanged(buildRowsFromResults([]));
+      }
       setDataSource(buildRowsFromResults([]));
     }
   };
@@ -486,6 +497,9 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
                 : responseJSON.predictions;
 
             _results = results;
+            if (props.onDataSourceChanged) {
+              props.onDataSourceChanged(buildRowsFromResults(results));
+            }
             setDataSource(buildRowsFromResults(results));
             // }
           }
@@ -520,6 +534,9 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
       request.send();
     } else {
       _results = [];
+      if (props.onDataSourceChanged) {
+        props.onDataSourceChanged(buildRowsFromResults([]));
+      }
       setDataSource(buildRowsFromResults([]));
     }
   };
@@ -847,6 +864,7 @@ GooglePlacesAutocomplete.propTypes = {
   numberOfLines: PropTypes.number,
   onFail: PropTypes.func,
   onNotFound: PropTypes.func,
+  onDataSourceChanged: PropTypes.func,
   onPress: PropTypes.func,
   onTimeout: PropTypes.func,
   placeholder: PropTypes.string,

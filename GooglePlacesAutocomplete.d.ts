@@ -401,6 +401,7 @@ interface GooglePlacesAutocompleteProps {
   numberOfLines?: number;
   onFail?: (error?: any) => void;
   onNotFound?: () => void;
+  onDataSourceChanged?: (data?: any) => void;
   onPress?: (data: GooglePlaceData, detail: GooglePlaceDetail | null) => void;
   onTimeout?: () => void;
   placeholder: string;
